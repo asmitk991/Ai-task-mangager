@@ -64,20 +64,26 @@ class GeminiTaskParser:
                 )
             )
             raw_content = response.text
+            print(f"DEBUG: Gemini raw response: {raw_content}")
             if not raw_content:
                 raise GeminiResponseError("Gemini returned an empty response.")
             return raw_content
         except Exception as exc:  # noqa: BLE001
+            print(f"DEBUG: Gemini API exception: {exc}")
             raise GeminiAPIError(f"Gemini API request failed: {exc}") from exc
 
     def _extract_json(self, raw_content: str) -> Dict[str, Any]:
-        if raw_content.startswith("```"):
-            stripped = raw_content.strip("`")
-            raw_content = stripped.replace("json\n", "", 1).strip()
+        # Handle cases where Gemini might still return markdown or extra text
+        raw_content = raw_content.strip()
+        if "```json" in raw_content:
+            raw_content = raw_content.split("```json")[1].split("```")[0].strip()
+        elif "```" in raw_content:
+            raw_content = raw_content.split("```")[1].split("```")[0].strip()
 
         start = raw_content.find("{")
         end = raw_content.rfind("}")
         if start == -1 or end == -1 or end <= start:
+            print(f"DEBUG: Failed to find JSON in: {raw_content}")
             raise GeminiResponseError("Gemini response did not contain a valid JSON object.")
 
         return json.loads(raw_content[start : end + 1])
