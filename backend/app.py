@@ -12,7 +12,7 @@ def create_app() -> Flask:
 
     CORS(
         app,
-        resources={r"/api/*": {"origins": ["http://localhost:5173", "https://*.onrender.com"]}},
+        resources={r"/api/*": {"origins": ["http://localhost:5173","https://ai-task-mangager.vercel.app"]}},
         supports_credentials=True
     )
 
