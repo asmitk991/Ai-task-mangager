@@ -12,7 +12,7 @@ The backend sends that text to Claude, forces a JSON-shaped response, validates 
 
 ## Features
 
-- AI-powered task parsing via Anthropic Claude
+- AI-powered task parsing via Anthropic Claude/Google Gemini
 - Strict schema validation using Pydantic
 - Flask REST API for parsing and CRUD operations
 - SQLAlchemy + SQLite persistence
@@ -29,7 +29,7 @@ The backend sends that text to Claude, forces a JSON-shaped response, validates 
 - Pydantic
 - SQLAlchemy
 - SQLite
-- Anthropic Claude API
+- Anthropic Claude API/Gemini API
 - python-dotenv
 - Flask-CORS
 
@@ -69,7 +69,7 @@ root/
 flowchart LR
     U["User"] --> V["Vue Frontend"]
     V --> F["Flask API"]
-    F --> C["Claude API"]
+    F --> C["Claude API/Gemini API"]
     C --> P["Pydantic Validation"]
     P --> D["SQLite Database"]
     D --> F
